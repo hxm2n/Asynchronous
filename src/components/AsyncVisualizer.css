@@ -1,0 +1,317 @@
+.visualizer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #e0e0e0;
+  background-color: #1a1a1a;
+  min-height: 100vh;
+}
+
+.visualizer-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.visualizer-header h1 {
+  margin: 0;
+  background: linear-gradient(90deg, #61dafb, #d19a66);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 2.5rem;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.controls select, .controls button {
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background-color: #2a2a2a;
+  color: white;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background-color: #3a3a3a;
+}
+
+.controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 0.8fr;
+  gap: 20px;
+}
+
+.card {
+  background-color: #252525;
+  border-radius: 10px;
+  padding: 15px;
+  border: 1px solid #333;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.card h3 {
+  margin-top: 0;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+  color: #888;
+}
+
+/* Source Code Section */
+.code-block {
+  background-color: #1e1e1e;
+  padding: 15px;
+  border-radius: 6px;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 0.9rem;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+.code-line {
+  display: flex;
+  gap: 15px;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+.code-line.active {
+  background-color: rgba(97, 218, 251, 0.2);
+  border-left: 3px solid #61dafb;
+}
+
+.line-num {
+  color: #555;
+  min-width: 20px;
+  text-align: right;
+  user-select: none;
+}
+
+.description-box {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #2a2a2a;
+  border-left: 4px solid #d19a66;
+  font-size: 0.95rem;
+}
+
+/* Event Loop Visualization */
+.event-loop-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 15px;
+  border: 1px solid #333;
+}
+
+.event-loop-wheel {
+  width: 120px;
+  height: 120px;
+  border: 6px solid #444;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.5s ease;
+}
+
+.event-loop-wheel.stack { border-color: #61dafb; box-shadow: 0 0 15px #61dafb; }
+.event-loop-wheel.microtasks { border-color: #2ecc71; box-shadow: 0 0 15px #2ecc71; }
+.event-loop-wheel.tasks { border-color: #e67e22; box-shadow: 0 0 15px #e67e22; }
+
+.event-loop-wheel::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 4px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: rotate 2s linear infinite;
+}
+
+.event-loop-label { font-size: 0.7rem; color: #888; }
+.event-loop-status { font-weight: bold; font-size: 0.9rem; margin-top: 5px; }
+
+.event-loop-arrows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.arrow {
+  padding: 5px 15px;
+  border-radius: 20px;
+  background: #2a2a2a;
+  font-size: 0.8rem;
+  color: #555;
+  transition: all 0.3s;
+}
+
+.arrow.active {
+  color: white;
+  transform: translateX(10px);
+}
+
+.arrow.to-stack.active { background: #61dafb; }
+.arrow.from-microtask.active { background: #2ecc71; }
+.arrow.from-task.active { background: #e67e22; }
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Call Stack & Web API Top Layout */
+.top-visuals {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  align-items: stretch; /* 카드 높이를 동일하게 맞춤 */
+}
+
+.top-visuals > .card {
+  flex: 1; /* 동일한 너비 할당 */
+  display: flex;
+  flex-direction: column;
+}
+
+.stack-container, .web-api-container {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 8px;
+  flex-grow: 1; /* 컨테이너가 카드 높이에 맞춰 늘어남 */
+  min-height: 180px;
+  justify-content: flex-start;
+  padding: 10px;
+  border: 1px dashed #444;
+  border-radius: 6px;
+}
+
+.web-api-container {
+  flex-direction: column; /* Web APIs often list pending tasks */
+}
+
+.stack-item {
+  background-color: #3d3d3d;
+  padding: 10px;
+  border-radius: 4px;
+  border-left: 4px solid #61dafb;
+  font-family: monospace;
+  font-size: 0.9rem;
+  animation: slideIn 0.3s ease-out;
+}
+
+.web-api-item {
+  background-color: #2c3e50;
+  padding: 10px;
+  border-radius: 4px;
+  border-left: 4px solid #9b59b6;
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: #ecf0f1;
+  animation: fadeIn 0.4s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Queues */
+.queues-area {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.queue-container {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 10px;
+  min-height: 60px;
+  border: 1px dashed #444;
+  border-radius: 6px;
+}
+
+.queue-item {
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  animation: slideIn 0.3s ease-out;
+}
+
+.microtask-item {
+  background-color: #2c3e50;
+  border-left: 4px solid #2ecc71;
+}
+
+.task-item {
+  background-color: #4a3728;
+  border-left: 4px solid #e67e22;
+}
+
+/* Output Log */
+.output-log {
+  font-family: monospace;
+  background-color: #000;
+  padding: 15px;
+  border-radius: 6px;
+  min-height: 300px;
+  color: #2ecc71;
+}
+
+.log-line {
+  margin-bottom: 5px;
+}
+
+.cursor {
+  display: inline-block;
+  animation: blink 1s step-end infinite;
+}
+
+.empty-label {
+  color: #555;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@media (max-width: 1000px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+}
